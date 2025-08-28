@@ -2,6 +2,6 @@ package com.davidmerchan.data.mapper
 
 import com.davidmerchan.network.dto.AuthDto
 
-object AuthMapper {
+internal object AuthMapper {
     fun AuthDto.toDomain(): String = apiKey
 }

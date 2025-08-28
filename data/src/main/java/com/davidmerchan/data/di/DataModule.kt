@@ -4,6 +4,8 @@ import com.davidmerchan.data.repository.AuthRepositoryImpl
 import com.davidmerchan.data.repository.PostRepositoryImpl
 import com.davidmerchan.data.repository.TokenRepositoryImpl
 import com.davidmerchan.data.repository.UserRepositoryImpl
+import com.davidmerchan.database.dao.PostDao
+import com.davidmerchan.database.dao.UserDao
 import com.davidmerchan.database.storage.Storage
 import com.davidmerchan.domain.repository.AuthRepository
 import com.davidmerchan.domain.repository.PostRepository
@@ -23,8 +25,11 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun providesUserRepository(userApi: UserApi, storage: Storage): UserRepository =
-        UserRepositoryImpl(userApi, storage)
+    fun providesUserRepository(
+        userApi: UserApi,
+        storage: Storage,
+        userDao: UserDao
+    ): UserRepository = UserRepositoryImpl(userApi, storage, userDao)
 
     @Provides
     @Singleton
@@ -32,7 +37,11 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(postApi: PostApi, storage: Storage): PostRepository = PostRepositoryImpl(postApi, storage)
+    fun providePostRepository(
+        postApi: PostApi,
+        storage: Storage,
+        postDao: PostDao
+    ): PostRepository = PostRepositoryImpl(postApi, storage, postDao)
 
     @Provides
     @Singleton

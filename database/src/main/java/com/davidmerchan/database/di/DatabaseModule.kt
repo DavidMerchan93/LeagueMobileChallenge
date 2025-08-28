@@ -1,6 +1,9 @@
 package com.davidmerchan.database.di
 
 import android.content.Context
+import com.davidmerchan.database.LeagueDatabase
+import com.davidmerchan.database.dao.PostDao
+import com.davidmerchan.database.dao.UserDao
 import com.davidmerchan.database.storage.Security
 import com.davidmerchan.database.storage.Storage
 import dagger.Module
@@ -25,4 +28,20 @@ object DatabaseModule {
         security: Security,
         @ApplicationContext context: Context
     ): Storage = Storage(security = security, context = context)
+
+    @Provides
+    @Singleton
+    fun provideLeagueDatabase(
+        @ApplicationContext context: Context
+    ): LeagueDatabase = LeagueDatabase.create(context)
+
+    @Provides
+    fun provideUserDao(database: LeagueDatabase): UserDao {
+        return database.userDao()
+    }
+
+    @Provides
+    fun providePostDao(database: LeagueDatabase): PostDao {
+        return database.postDao()
+    }
 }

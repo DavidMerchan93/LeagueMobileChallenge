@@ -1,5 +1,6 @@
 package com.davidmerchan.presentation.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,7 +40,7 @@ import com.davidmerchan.presentation.feature.home.model.PostUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, onPostClick: (Int) -> Unit) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -65,7 +67,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 }
 
                 state.items.isNotEmpty() -> {
-                    HomeContent(users = state.items)
+                    HomeContent(users = state.items, onPostClick = onPostClick)
                 }
 
                 state.items.isEmpty() -> {
@@ -82,7 +84,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeContent(modifier: Modifier = Modifier, users: List<PostUiModel>) {
+fun HomeContent(
+    modifier: Modifier = Modifier,
+    users: List<PostUiModel>,
+    onPostClick: (Int) -> Unit
+) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -90,24 +96,27 @@ fun HomeContent(modifier: Modifier = Modifier, users: List<PostUiModel>) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(users, key = { it.id }) { user ->
-            UserPostCard(user = user)
+            PostUserCard(post = user, onPostClick = onPostClick)
         }
     }
 }
 
 @Composable
-fun UserPostCard(
+fun PostUserCard(
     modifier: Modifier = Modifier,
-    user: PostUiModel
+    post: PostUiModel,
+    onPostClick: (Int) -> Unit
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = { onPostClick(post.id) }),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
-                    model = user.avatar,
+                    model = post.avatar,
                     contentDescription = "Avatar",
                     modifier = Modifier
                         .size(40.dp)
@@ -116,7 +125,7 @@ fun UserPostCard(
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    text = user.userName,
+                    text = post.userName,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -126,7 +135,7 @@ fun UserPostCard(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = user.title,
+                text = post.title,
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -135,7 +144,7 @@ fun UserPostCard(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = user.description,
+                text = post.description,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 4,
                 overflow = TextOverflow.Ellipsis,
@@ -143,4 +152,19 @@ fun UserPostCard(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun PostCardPreview() {
+    PostUserCard(
+        post = PostUiModel(
+            id = 1,
+            title = "Sample Post Title",
+            avatar = "https://example.com/avatar.jpg",
+            userName = "John Doe",
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin in orci."
+        ),
+        onPostClick = {}
+    )
 }

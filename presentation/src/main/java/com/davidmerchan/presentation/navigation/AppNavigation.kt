@@ -22,7 +22,6 @@ fun AppNavigation(
             LoginScreen(
                 onLoginClick = {
                     navController.navigate(HomeRoute) {
-                        // Clear the login screen from back stack
                         popUpTo(LoginRoute) { inclusive = true }
                     }
                 }
@@ -30,13 +29,19 @@ fun AppNavigation(
         }
 
         composable<HomeRoute> {
-            HomeScreen()
+            HomeScreen(
+                onPostClick = { postId ->
+                    navController.navigate(DetailRoute(postId))
+                }
+            )
         }
 
         composable<DetailRoute> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<DetailRoute>()
-            // detailRoute.itemId
-            DetailScreen()
+            DetailScreen(
+                postId = detailRoute.itemId,
+                onBackPressed = { navController.popBackStack() }
+            )
         }
     }
 }
