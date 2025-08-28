@@ -23,7 +23,8 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun providesUserRepository(userApi: UserApi): UserRepository = UserRepositoryImpl(userApi)
+    fun providesUserRepository(userApi: UserApi, storage: Storage): UserRepository =
+        UserRepositoryImpl(userApi, storage)
 
     @Provides
     @Singleton

@@ -1,8 +1,7 @@
 package com.davidmerchan.presentation.feature.home
 
 import androidx.lifecycle.viewModelScope
-import com.davidmerchan.domain.useCase.GetPostsUseCase
-import com.davidmerchan.domain.useCase.GetUsersUseCase
+import com.davidmerchan.domain.useCase.GetPostsWithUsersUseCase
 import com.davidmerchan.presentation.feature.home.mapper.PostUiMapper.toUi
 import com.davidmerchan.presentation.util.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase,
-    private val getPostsUseCase: GetPostsUseCase
+    private val getPostsUseCase: GetPostsWithUsersUseCase
 ) : BaseViewModel<HomeContract.State>(HomeContract.State()) {
 
     init {

@@ -6,10 +6,12 @@ import com.davidmerchan.domain.repository.TokenRepository
 import com.davidmerchan.domain.repository.UserRepository
 import com.davidmerchan.domain.useCase.AuthUserCase
 import com.davidmerchan.domain.useCase.GetPostsUseCase
+import com.davidmerchan.domain.useCase.GetPostsWithUsersUseCase
 import com.davidmerchan.domain.useCase.GetUsersUseCase
 import com.davidmerchan.domain.useCase.SaveTokenUseCase
 import com.davidmerchan.domain.useCase.authUser
 import com.davidmerchan.domain.useCase.getPosts
+import com.davidmerchan.domain.useCase.getPostsWithUsers
 import com.davidmerchan.domain.useCase.getUsers
 import com.davidmerchan.domain.useCase.saveToken
 import dagger.Module
@@ -59,5 +61,14 @@ object DomainModule {
     @Singleton
     fun provideGetPostsUseCase(postRepository: PostRepository): GetPostsUseCase {
         return GetPostsUseCase { getPosts(postRepository) }
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetPostsWithUsersUseCase(
+        postRepository: PostRepository,
+        userRepository: UserRepository
+    ): GetPostsWithUsersUseCase {
+        return GetPostsWithUsersUseCase { getPostsWithUsers(postRepository, userRepository) }
     }
 }

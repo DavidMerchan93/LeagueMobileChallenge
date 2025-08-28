@@ -1,14 +1,14 @@
 package com.davidmerchan.presentation.feature.home.mapper
 
-import com.davidmerchan.domain.model.PostModel
+import com.davidmerchan.domain.model.PostWithUserModel
 import com.davidmerchan.presentation.feature.home.model.PostUiModel
 
 object PostUiMapper {
-    fun PostModel.toUi(): PostUiModel = PostUiModel(
+    fun PostWithUserModel.toUi(): PostUiModel = PostUiModel(
         id = id,
         title = title,
-        avatar = "",
-        userName = "",
-        description = body
+        avatar = avatar,
+        userName = userName,
+        description = description
     )
 }
