@@ -69,6 +69,9 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

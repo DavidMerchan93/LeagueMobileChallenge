@@ -25,9 +25,9 @@ internal class LoginViewModel @Inject constructor(
             val response = authUserCase(username, password)
 
             if (response.isSuccess) {
-                mutableState.update { it.copy(successLogin = true, isLoading = false) }
+                mutableState.update { it.copy(isSuccessLogin = true, isLoading = false) }
             } else {
-                mutableState.update { it.copy(error = true, isLoading = false) }
+                mutableState.update { it.copy(isError = true, isLoading = false) }
             }
         }
     }

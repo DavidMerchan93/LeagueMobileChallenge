@@ -12,13 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,18 +32,39 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginClick: () -> Unit = {}) {
     val viewModel: LoginViewModel = hiltViewModel()
-    val state by viewModel.uiState.collectAsState()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (state.isSuccessLogin) {
+        onLoginClick()
+    }
+
+    LoginContent(
+        isLoading = state.isLoading,
+        isError = state.isError
+    ) { username, password ->
+        viewModel.handleEvent(LoginContract.Event.Login(username, password))
+    }
+}
+
+@Composable
+fun LoginContent(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    isError: Boolean = false,
+    onLoginClick: (String, String) -> Unit,
+) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,6 +75,16 @@ fun LoginScreen() {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
+
+        if (isLoading) {
+            Spacer(modifier = Modifier.height(48.dp))
+            CircularProgressIndicator()
+        }
+
+        if (isError) {
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(text = "Invalid username or password")
+        }
 
         Spacer(modifier = Modifier.height(48.dp))
 
@@ -99,7 +130,7 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = { viewModel.handleEvent(LoginContract.Event.Login(username, password)) },
+            onClick = { onLoginClick(username, password) },
             modifier = Modifier.fillMaxWidth(),
             enabled = username.isNotBlank() && password.isNotBlank()
         ) {
