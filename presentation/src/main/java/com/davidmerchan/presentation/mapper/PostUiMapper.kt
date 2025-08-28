@@ -1,7 +1,7 @@
-package com.davidmerchan.presentation.feature.home.mapper
+package com.davidmerchan.presentation.mapper
 
 import com.davidmerchan.domain.model.PostWithUserModel
-import com.davidmerchan.presentation.feature.home.model.PostUiModel
+import com.davidmerchan.presentation.model.PostUiModel
 
 object PostUiMapper {
     fun PostWithUserModel.toUi(): PostUiModel = PostUiModel(
@@ -9,6 +9,7 @@ object PostUiMapper {
         title = title,
         avatar = avatar,
         userName = userName,
-        description = description
+        description = description,
+        userId = userId
     )
 }

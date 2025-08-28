@@ -11,10 +11,10 @@ import javax.inject.Inject
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
     private val authUserCase: AuthUserCase
-): BaseViewModel<LoginContract.State>(LoginContract.State()) {
+) : BaseViewModel<LoginContract.State>(LoginContract.State()) {
 
     fun handleEvent(event: LoginContract.Event) {
-        when(event) {
+        when (event) {
             is LoginContract.Event.Login -> login(event.username, event.password)
         }
     }
@@ -22,11 +22,9 @@ internal class LoginViewModel @Inject constructor(
     private fun login(username: String, password: String) {
         mutableState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val response = authUserCase(username, password)
-
-            if (response.isSuccess) {
+            authUserCase(username, password).onSuccess {
                 mutableState.update { it.copy(isSuccessLogin = true, isLoading = false) }
-            } else {
+            }.onFailure {
                 mutableState.update { it.copy(isError = true, isLoading = false) }
             }
         }

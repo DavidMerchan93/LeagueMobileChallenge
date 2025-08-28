@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.davidmerchan.presentation.feature.home.model.PostUiModel
+import com.davidmerchan.presentation.model.PostUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,7 +110,7 @@ fun PostUserCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onPostClick(post.id) }),
+            .clickable(onClick = { onPostClick(post.userId) }),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -163,7 +163,8 @@ private fun PostCardPreview() {
             title = "Sample Post Title",
             avatar = "https://example.com/avatar.jpg",
             userName = "John Doe",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin in orci."
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin in orci.",
+            userId = 2
         ),
         onPostClick = {}
     )

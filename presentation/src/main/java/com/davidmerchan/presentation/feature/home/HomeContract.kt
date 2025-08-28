@@ -1,8 +1,8 @@
 package com.davidmerchan.presentation.feature.home
 
-import com.davidmerchan.presentation.feature.home.model.PostUiModel
+import com.davidmerchan.presentation.model.PostUiModel
 
-internal interface HomeContract {
+internal sealed interface HomeContract {
     data class State(
         val isLoading: Boolean = false,
         val isError: Boolean = false,

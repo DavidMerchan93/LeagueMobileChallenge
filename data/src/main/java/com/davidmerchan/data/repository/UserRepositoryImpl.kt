@@ -32,6 +32,6 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserById(userId: Int): Result<UserModel?> {
-        TODO("Not yet implemented")
+        return safeApiCall { userDao.getUserById(userId)?.toDomain() }
     }
 }

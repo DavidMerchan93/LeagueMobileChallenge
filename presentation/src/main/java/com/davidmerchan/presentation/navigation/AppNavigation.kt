@@ -39,7 +39,7 @@ fun AppNavigation(
         composable<DetailRoute> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<DetailRoute>()
             DetailScreen(
-                postId = detailRoute.itemId,
+                userId = detailRoute.userId,
                 onBackPressed = { navController.popBackStack() }
             )
         }

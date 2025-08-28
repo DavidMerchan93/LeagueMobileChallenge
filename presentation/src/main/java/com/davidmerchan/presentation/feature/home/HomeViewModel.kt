@@ -2,7 +2,7 @@ package com.davidmerchan.presentation.feature.home
 
 import androidx.lifecycle.viewModelScope
 import com.davidmerchan.domain.useCase.GetPostsWithUsersUseCase
-import com.davidmerchan.presentation.feature.home.mapper.PostUiMapper.toUi
+import com.davidmerchan.presentation.mapper.PostUiMapper.toUi
 import com.davidmerchan.presentation.util.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -21,21 +21,15 @@ internal class HomeViewModel @Inject constructor(
     private fun getPosts() {
         mutableState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = getPostsUseCase()
-
-            when {
-                result.isSuccess -> {
-                    mutableState.update { state ->
-                        state.copy(
-                            isLoading = false,
-                            items = result.getOrNull()?.map { it.toUi() }.orEmpty()
-                        )
-                    }
+            getPostsUseCase().onSuccess { result ->
+                mutableState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        items = result.map { it.toUi() }
+                    )
                 }
-
-                result.isFailure -> {
-                    mutableState.update { it.copy(isLoading = false, isError = true) }
-                }
+            }.onFailure {
+                mutableState.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
