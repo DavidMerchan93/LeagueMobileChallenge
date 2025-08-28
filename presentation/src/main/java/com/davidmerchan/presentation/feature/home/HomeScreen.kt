@@ -1,5 +1,6 @@
 package com.davidmerchan.presentation.feature.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -83,9 +84,12 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 fun HomeContent(modifier: Modifier = Modifier, users: List<PostUiModel>) {
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .padding(4.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(users) { user ->
+        items(users, key = { it.id }) { user ->
             UserPostCard(user = user)
         }
     }

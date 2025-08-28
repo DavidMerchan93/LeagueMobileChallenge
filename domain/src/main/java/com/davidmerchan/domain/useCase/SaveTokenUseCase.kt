@@ -1,7 +1,9 @@
 package com.davidmerchan.domain.useCase
 
-fun interface SaveTokenUseCase: suspend (String) -> Result<Boolean>
+import com.davidmerchan.domain.repository.TokenRepository
 
-internal suspend fun saveToken(token: String): Result<Boolean> {
-    return Result.success(true)
+fun interface SaveTokenUseCase : suspend (String) -> Result<Boolean>
+
+internal suspend fun saveToken(token: String, tokenRepository: TokenRepository): Result<Boolean> {
+    return tokenRepository.saveToken(token)
 }

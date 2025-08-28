@@ -2,6 +2,7 @@ package com.davidmerchan.domain.di
 
 import com.davidmerchan.domain.repository.AuthRepository
 import com.davidmerchan.domain.repository.PostRepository
+import com.davidmerchan.domain.repository.TokenRepository
 import com.davidmerchan.domain.repository.UserRepository
 import com.davidmerchan.domain.useCase.AuthUserCase
 import com.davidmerchan.domain.useCase.GetPostsUseCase
@@ -44,8 +45,8 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun provideSaveTokenUseCase(): SaveTokenUseCase {
-        return SaveTokenUseCase { token -> saveToken(token) }
+    fun provideSaveTokenUseCase(tokenRepository: TokenRepository): SaveTokenUseCase {
+        return SaveTokenUseCase { token -> saveToken(token, tokenRepository) }
     }
 
     @Provides

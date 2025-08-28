@@ -52,8 +52,12 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
     
-    // Encrypted SharedPreferences
-    implementation(libs.androidx.security.crypto)
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.core)
+    
+    // Tink Cryptography
+    implementation(libs.tink.android)
 
     // Hilt
     implementation(libs.hilt.android)
