@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "LeagueMobileChallenge"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":presentation")
+include(":network")
+include(":database")
