@@ -4,20 +4,22 @@ import com.davidmerchan.data.repository.AuthRepositoryImpl
 import com.davidmerchan.data.repository.UserRepositoryImpl
 import com.davidmerchan.domain.repository.AuthRepository
 import com.davidmerchan.domain.repository.UserRepository
-import dagger.Binds
+import com.davidmerchan.network.api.AuthApi
+import com.davidmerchan.network.api.UserApi
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
-    @Binds
+object DataModule {
+    @Provides
     @Singleton
-    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+    fun providesUserRepository(userApi: UserApi): UserRepository = UserRepositoryImpl(userApi)
 
-    @Binds
+    @Provides
     @Singleton
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+    fun providesAuthRepository(authApi: AuthApi): AuthRepository = AuthRepositoryImpl(authApi)
 }

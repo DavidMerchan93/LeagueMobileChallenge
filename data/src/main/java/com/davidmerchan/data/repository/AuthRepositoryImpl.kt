@@ -5,8 +5,9 @@ import com.davidmerchan.domain.repository.AuthRepository
 import com.davidmerchan.network.api.AuthApi
 import com.davidmerchan.network.api.login
 import com.davidmerchan.network.util.safeApiCall
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val authApi: AuthApi
 ): AuthRepository {
     override suspend fun login(username: String, password: String): Result<String> {
