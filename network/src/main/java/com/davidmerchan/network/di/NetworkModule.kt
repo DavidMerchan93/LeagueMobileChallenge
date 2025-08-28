@@ -1,6 +1,7 @@
 package com.davidmerchan.network.di
 
 import com.davidmerchan.network.api.AuthApi
+import com.davidmerchan.network.api.PostApi
 import com.davidmerchan.network.api.UserApi
 import com.davidmerchan.network.util.ApiServices
 import dagger.Module
@@ -25,4 +26,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostApi(retrofit: Retrofit): PostApi = retrofit.create(PostApi::class.java)
 }
