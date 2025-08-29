@@ -20,12 +20,12 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun login(username: String, password: String) {
-        mutableState.update { it.copy(isLoading = true) }
+        mutableState.update { it.copy(isLoading = true, isError = false, isSuccessLogin = false) }
         viewModelScope.launch {
             authUserCase(username, password).onSuccess {
-                mutableState.update { it.copy(isSuccessLogin = true, isLoading = false) }
+                mutableState.update { it.copy(isSuccessLogin = true, isLoading = false, isError = false) }
             }.onFailure {
-                mutableState.update { it.copy(isError = true, isLoading = false) }
+                mutableState.update { it.copy(isError = true, isLoading = false, isSuccessLogin = false) }
             }
         }
     }
