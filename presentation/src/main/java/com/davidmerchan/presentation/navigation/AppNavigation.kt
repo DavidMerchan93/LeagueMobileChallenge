@@ -39,8 +39,7 @@ fun AppNavigation(
                 }
             }
 
-            AuthState.CHECKING -> { /* Stay in splash */
-            }
+            AuthState.CHECKING -> Unit
         }
     }
 
