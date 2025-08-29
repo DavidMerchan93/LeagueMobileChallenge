@@ -10,10 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.davidmerchan.presentation.auth.AuthContract
-import com.davidmerchan.presentation.auth.AuthState
-import com.davidmerchan.presentation.auth.AuthViewModel
-import com.davidmerchan.presentation.auth.SplashScreen
+import com.davidmerchan.presentation.feature.auth.AuthContract
+import com.davidmerchan.presentation.feature.auth.AuthState
+import com.davidmerchan.presentation.feature.auth.AuthViewModel
+import com.davidmerchan.presentation.feature.auth.SplashScreen
 import com.davidmerchan.presentation.feature.detail.DetailScreen
 import com.davidmerchan.presentation.feature.home.HomeScreen
 import com.davidmerchan.presentation.feature.login.LoginScreen

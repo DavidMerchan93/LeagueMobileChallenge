@@ -1,4 +1,4 @@
-package com.davidmerchan.presentation.auth
+package com.davidmerchan.presentation.feature.auth
 
 enum class AuthState {
     CHECKING,

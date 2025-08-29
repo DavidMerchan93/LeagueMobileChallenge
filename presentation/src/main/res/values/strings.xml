@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Splash -->
+    <string name="splash_title">League Mobile Challenge</string>
+
+    <!-- Login -->
+    <string name="login_title">Login</string>
+    <string name="login_message_error">Invalid username or password</string>
+    <string name="login_username_label">Username</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_title_button">Login</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="home_logout_title">Logout</string>
+    <string name="home_empty_posts">No posts found</string>
+    <string name="home_error_fetching_posts">Error fetching posts</string>
+
+    <!-- Detail -->
+    <string name="detail_title">Detail</string>
+    <string name="detail_error_fetching_user">Error fetching user</string>
+    <string name="detail_contact_information">Contact Information</string>
+    <string name="detail_user_details">User Details</string>
+    <string name="detail_user_id">User ID:</string>
+
+</resources>

@@ -17,7 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,11 +35,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
+import com.davidmerchan.presentation.R
 import com.davidmerchan.presentation.model.UserUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +61,7 @@ fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Detail")
+                    Text(text = stringResource(R.string.detail_title))
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
@@ -97,7 +100,7 @@ fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -
                         .fillMaxSize()
                         .padding(padding), contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Error fetching user")
+                    Text(text = stringResource(R.string.detail_error_fetching_user))
                 }
             }
         }
@@ -114,7 +117,6 @@ private fun UserDetailContent(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        // Profile Header Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,24 +132,24 @@ private fun UserDetailContent(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Avatar placeholder (since UserUiModel doesn't have avatar URL)
                 Box(
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(120.dp)
                         .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "User Avatar",
-                        modifier = Modifier.size(60.dp),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    AsyncImage(
+                        model = user.avatar,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // User Name
                 Text(
                     text = user.name,
                     style = MaterialTheme.typography.headlineMedium,
@@ -159,7 +161,6 @@ private fun UserDetailContent(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Username
                 Text(
                     text = "@${user.username}",
                     style = MaterialTheme.typography.titleMedium,
@@ -168,15 +169,13 @@ private fun UserDetailContent(
             }
         }
 
-        // Contact Information Section
         Text(
-            text = "Contact Information",
+            text = stringResource(R.string.detail_contact_information),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // Contact Details Cards
         ContactInfoCard(
             icon = Icons.Default.Email,
             title = "Email",
@@ -200,7 +199,6 @@ private fun UserDetailContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // User ID Info Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -211,7 +209,7 @@ private fun UserDetailContent(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "User Details",
+                    text = stringResource(R.string.detail_user_details),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.primary,
@@ -223,7 +221,7 @@ private fun UserDetailContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "User ID:",
+                        text = stringResource(R.string.detail_user_id),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

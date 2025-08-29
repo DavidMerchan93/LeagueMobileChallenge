@@ -9,6 +9,7 @@ object UserUiMapper {
             id = id,
             name = name,
             username = username,
+            avatar = avatar,
             email = email,
             phone = phone,
             website = website

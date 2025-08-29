@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.davidmerchan.presentation.R
 
 @Composable
 fun LoginScreen(onLoginClick: () -> Unit = {}) {
@@ -71,7 +73,7 @@ fun LoginContent(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Login",
+            text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -83,7 +85,7 @@ fun LoginContent(
 
         if (isError) {
             Spacer(modifier = Modifier.height(48.dp))
-            Text(text = "Invalid username or password")
+            Text(text = stringResource(R.string.login_message_error))
         }
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -91,7 +93,7 @@ fun LoginContent(
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Username") },
+            label = { Text(stringResource(R.string.login_username_label)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
@@ -102,7 +104,7 @@ fun LoginContent(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text(text = stringResource(R.string.login_password_label)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             visualTransformation = if (isPasswordVisible) {
@@ -134,7 +136,7 @@ fun LoginContent(
             modifier = Modifier.fillMaxWidth(),
             enabled = username.isNotBlank() && password.isNotBlank()
         ) {
-            Text("Login")
+            Text(stringResource(R.string.login_title_button))
         }
     }
 }

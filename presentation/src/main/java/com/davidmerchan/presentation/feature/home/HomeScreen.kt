@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,12 +41,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.davidmerchan.presentation.R
 import com.davidmerchan.presentation.model.PostUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier, 
+    modifier: Modifier = Modifier,
     onPostClick: (Int) -> Unit,
     onLogoutClick: () -> Unit = {}
 ) {
@@ -57,7 +59,7 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Home")
+                    Text(text = stringResource(R.string.home_title))
                 },
                 actions = {
                     IconButton(
@@ -65,7 +67,7 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                            contentDescription = "Logout",
+                            contentDescription = stringResource(R.string.home_logout_title),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -90,11 +92,11 @@ fun HomeScreen(
                 }
 
                 state.items.isEmpty() -> {
-                    Text(text = "No posts found")
+                    Text(text = stringResource(R.string.home_empty_posts))
                 }
 
                 state.isError -> {
-                    Text(text = "Error fetching posts")
+                    Text(text = stringResource(R.string.home_error_fetching_posts))
                 }
             }
 
@@ -136,7 +138,7 @@ fun PostUserCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
                     model = post.avatar,
-                    contentDescription = "Avatar",
+                    contentDescription = null,
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape),

@@ -1,4 +1,4 @@
-package com.davidmerchan.presentation.auth
+package com.davidmerchan.presentation.feature.auth
 
 import androidx.lifecycle.viewModelScope
 import com.davidmerchan.domain.useCase.GetAccessTokenUseCase
