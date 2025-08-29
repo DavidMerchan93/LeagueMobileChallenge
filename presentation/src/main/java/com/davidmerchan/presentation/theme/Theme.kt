@@ -87,9 +87,7 @@ private val darkScheme =
 @Composable
 fun LeagueMobileChallengeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content:
-        @Composable()
-        () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     val colorScheme =
         when {
