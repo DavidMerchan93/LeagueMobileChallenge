@@ -1,11 +1,19 @@
 package com.davidmerchan.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.davidmerchan.presentation.auth.AuthContract
+import com.davidmerchan.presentation.auth.AuthState
+import com.davidmerchan.presentation.auth.AuthViewModel
+import com.davidmerchan.presentation.auth.SplashScreen
 import com.davidmerchan.presentation.feature.detail.DetailScreen
 import com.davidmerchan.presentation.feature.home.HomeScreen
 import com.davidmerchan.presentation.feature.login.LoginScreen
@@ -14,10 +22,35 @@ import com.davidmerchan.presentation.feature.login.LoginScreen
 fun AppNavigation(
     navController: NavHostController = rememberNavController()
 ) {
+    val authViewModel: AuthViewModel = hiltViewModel()
+    val state by authViewModel.uiState.collectAsState()
+
+    LaunchedEffect(state.authState) {
+        when (state.authState) {
+            AuthState.AUTHENTICATED -> {
+                navController.navigate(HomeRoute) {
+                    popUpTo(SplashRoute) { inclusive = true }
+                }
+            }
+
+            AuthState.UNAUTHENTICATED -> {
+                navController.navigate(LoginRoute) {
+                    popUpTo(SplashRoute) { inclusive = true }
+                }
+            }
+
+            AuthState.CHECKING -> { /* Stay in splash */
+            }
+        }
+    }
+
     NavHost(
         navController = navController,
-        startDestination = LoginRoute
+        startDestination = SplashRoute
     ) {
+        composable<SplashRoute> {
+            SplashScreen()
+        }
         composable<LoginRoute> {
             LoginScreen(
                 onLoginClick = {
@@ -34,9 +67,7 @@ fun AppNavigation(
                     navController.navigate(DetailRoute(postId))
                 },
                 onLogoutClick = {
-                    navController.navigate(LoginRoute) {
-                        popUpTo(0) { inclusive = true }
-                    }
+                    authViewModel.handleEvent(AuthContract.Event.Logout)
                 }
             )
         }

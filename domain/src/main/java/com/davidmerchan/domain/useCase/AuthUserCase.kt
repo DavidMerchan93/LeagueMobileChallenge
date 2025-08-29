@@ -2,7 +2,7 @@ package com.davidmerchan.domain.useCase
 
 import com.davidmerchan.domain.repository.AuthRepository
 
-fun interface AuthUserCase: suspend (String, String) -> Result<Boolean>
+fun interface AuthUserCase : suspend (String, String) -> Result<Boolean>
 
 internal suspend fun authUser(
     username: String = "",
@@ -18,7 +18,8 @@ internal suspend fun authUser(
         }
 
         result.isFailure -> {
-            throw result.exceptionOrNull()!!
+            val exception = result.exceptionOrNull() ?: Exception("Unknown error")
+            Result.failure(exception)
         }
 
         else -> {
