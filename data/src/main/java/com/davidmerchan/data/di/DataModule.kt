@@ -28,7 +28,7 @@ object DataModule {
     fun providesUserRepository(
         userApi: UserApi,
         storage: Storage,
-        userDao: UserDao
+        userDao: UserDao,
     ): UserRepository = UserRepositoryImpl(userApi, storage, userDao)
 
     @Provides
@@ -40,7 +40,7 @@ object DataModule {
     fun providePostRepository(
         postApi: PostApi,
         storage: Storage,
-        postDao: PostDao
+        postDao: PostDao,
     ): PostRepository = PostRepositoryImpl(postApi, storage, postDao)
 
     @Provides

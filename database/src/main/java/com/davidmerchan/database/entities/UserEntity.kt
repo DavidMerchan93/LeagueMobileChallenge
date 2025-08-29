@@ -16,17 +16,15 @@ data class UserEntity(
     @ColumnInfo(name = "user_name")
     val userName: String,
     val website: String,
-
     val lat: String,
     val lng: String,
     val street: String,
     val suite: String,
     @ColumnInfo(name = "zip_code")
     val zipCode: String,
-
     val bs: String,
     @ColumnInfo(name = "catch_phrase")
     val catchPhrase: String,
     @ColumnInfo(name = "company_name")
-    val companyName: String
+    val companyName: String,
 )

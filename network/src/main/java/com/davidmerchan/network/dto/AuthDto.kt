@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AuthDto(
     @SerialName("api_key")
-    val apiKey: String
+    val apiKey: String,
 )

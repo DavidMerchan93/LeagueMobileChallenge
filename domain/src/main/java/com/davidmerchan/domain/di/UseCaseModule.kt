@@ -28,47 +28,40 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DomainModule {
-
     @Provides
     @Singleton
     fun provideAuthUserCase(
         authRepository: AuthRepository,
-        saveTokenUseCase: SaveTokenUseCase
-    ): AuthUserCase {
-        return AuthUserCase { user, password ->
+        saveTokenUseCase: SaveTokenUseCase,
+    ): AuthUserCase =
+        AuthUserCase { user, password ->
             authUser(
                 username = user,
                 password = password,
                 authRepository = authRepository,
-                saveTokenUseCase = saveTokenUseCase
+                saveTokenUseCase = saveTokenUseCase,
             )
         }
-    }
 
     @Provides
     @Singleton
-    fun provideSaveTokenUseCase(tokenRepository: TokenRepository): SaveTokenUseCase {
-        return SaveTokenUseCase { token -> saveToken(token, tokenRepository) }
-    }
+    fun provideSaveTokenUseCase(tokenRepository: TokenRepository): SaveTokenUseCase =
+        SaveTokenUseCase { token -> saveToken(token, tokenRepository) }
 
     @Provides
     @Singleton
     fun provideGetPostsWithUsersUseCase(
         postRepository: PostRepository,
-        userRepository: UserRepository
-    ): GetPostsWithUsersUseCase {
-        return GetPostsWithUsersUseCase { getPostsWithUsers(postRepository, userRepository) }
-    }
+        userRepository: UserRepository,
+    ): GetPostsWithUsersUseCase = GetPostsWithUsersUseCase { getPostsWithUsers(postRepository, userRepository) }
 
     @Provides
     @Singleton
-    fun provideGetUserByIdUseCase(userRepository: UserRepository): GetUserByIdUseCase {
-        return GetUserByIdUseCase { userId -> getUserById(userRepository, userId) }
-    }
+    fun provideGetUserByIdUseCase(userRepository: UserRepository): GetUserByIdUseCase =
+        GetUserByIdUseCase { userId -> getUserById(userRepository, userId) }
 
     @Provides
     @Singleton
-    fun provideGetAccessTokenUseCase(tokenRepository: TokenRepository): GetAccessTokenUseCase {
-        return GetAccessTokenUseCase { getAccessToken(tokenRepository) }
-    }
+    fun provideGetAccessTokenUseCase(tokenRepository: TokenRepository): GetAccessTokenUseCase =
+        GetAccessTokenUseCase { getAccessToken(tokenRepository) }
 }

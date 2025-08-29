@@ -49,7 +49,7 @@ import com.davidmerchan.presentation.model.PostUiModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onPostClick: (Int) -> Unit,
-    onLogoutClick: () -> Unit = {}
+    onLogoutClick: () -> Unit = {},
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -63,25 +63,25 @@ fun HomeScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = onLogoutClick
+                        onClick = onLogoutClick,
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = stringResource(R.string.home_logout_title),
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+            contentAlignment = Alignment.Center,
         ) {
-
             when {
                 state.isLoading -> {
                     CircularProgressIndicator()
@@ -99,7 +99,6 @@ fun HomeScreen(
                     Text(text = stringResource(R.string.home_error_fetching_posts))
                 }
             }
-
         }
     }
 }
@@ -108,13 +107,14 @@ fun HomeScreen(
 fun HomeContent(
     modifier: Modifier = Modifier,
     users: List<PostUiModel>,
-    onPostClick: (Int) -> Unit
+    onPostClick: (Int) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(4.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(4.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(users, key = { it.id }) { user ->
             PostUserCard(post = user, onPostClick = onPostClick)
@@ -126,30 +126,32 @@ fun HomeContent(
 fun PostUserCard(
     modifier: Modifier = Modifier,
     post: PostUiModel,
-    onPostClick: (Int) -> Unit
+    onPostClick: (Int) -> Unit,
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = { onPostClick(post.userId) }),
-        shape = RoundedCornerShape(12.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable(onClick = { onPostClick(post.userId) }),
+        shape = RoundedCornerShape(12.dp),
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
                     model = post.avatar,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
+                    modifier =
+                        Modifier
+                            .size(40.dp)
+                            .clip(CircleShape),
+                    contentScale = ContentScale.Crop,
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(
                     text = post.userName,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
@@ -159,7 +161,7 @@ fun PostUserCard(
                 text = post.title,
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
 
             Spacer(Modifier.height(8.dp))
@@ -169,7 +171,7 @@ fun PostUserCard(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 4,
                 overflow = TextOverflow.Ellipsis,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             )
         }
     }
@@ -179,14 +181,15 @@ fun PostUserCard(
 @Composable
 private fun PostCardPreview() {
     PostUserCard(
-        post = PostUiModel(
-            id = 1,
-            title = "Sample Post Title",
-            avatar = "https://example.com/avatar.jpg",
-            userName = "John Doe",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin in orci.",
-            userId = 2
-        ),
-        onPostClick = {}
+        post =
+            PostUiModel(
+                id = 1,
+                title = "Sample Post Title",
+                avatar = "https://example.com/avatar.jpg",
+                userName = "John Doe",
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin in orci.",
+                userId = 2,
+            ),
+        onPostClick = {},
     )
 }

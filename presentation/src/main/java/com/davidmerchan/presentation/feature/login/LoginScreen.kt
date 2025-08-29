@@ -47,7 +47,7 @@ fun LoginScreen(onLoginClick: () -> Unit = {}) {
 
     LoginContent(
         isLoading = state.isLoading,
-        isError = state.isError
+        isError = state.isError,
     ) { username, password ->
         viewModel.handleEvent(LoginContract.Event.Login(username, password))
     }
@@ -60,22 +60,22 @@ fun LoginContent(
     isError: Boolean = false,
     onLoginClick: (String, String) -> Unit,
 ) {
-
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(32.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
 
         if (isLoading) {
@@ -96,7 +96,7 @@ fun LoginContent(
             label = { Text(stringResource(R.string.login_username_label)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -107,26 +107,28 @@ fun LoginContent(
             label = { Text(text = stringResource(R.string.login_password_label)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            visualTransformation = if (isPasswordVisible) {
-                VisualTransformation.None
-            } else {
-                PasswordVisualTransformation()
-            },
+            visualTransformation =
+                if (isPasswordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
                 IconButton(
-                    onClick = { isPasswordVisible = !isPasswordVisible }
+                    onClick = { isPasswordVisible = !isPasswordVisible },
                 ) {
                     Icon(
-                        imageVector = if (isPasswordVisible) {
-                            Icons.Default.Add
-                        } else {
-                            Icons.Filled.Close
-                        },
-                        contentDescription = null
+                        imageVector =
+                            if (isPasswordVisible) {
+                                Icons.Default.Add
+                            } else {
+                                Icons.Filled.Close
+                            },
+                        contentDescription = null,
                     )
                 }
-            }
+            },
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -134,7 +136,7 @@ fun LoginContent(
         Button(
             onClick = { onLoginClick(username, password) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = username.isNotBlank() && password.isNotBlank()
+            enabled = username.isNotBlank() && password.isNotBlank(),
         ) {
             Text(stringResource(R.string.login_title_button))
         }

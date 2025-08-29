@@ -48,7 +48,11 @@ import com.davidmerchan.presentation.model.UserUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -> Unit) {
+fun DetailScreen(
+    modifier: Modifier = Modifier,
+    userId: Int,
+    onBackPressed: () -> Unit,
+) {
     val viewModel: DetailViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -77,9 +81,11 @@ fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -
         when {
             state.isLoading -> {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding), contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
                 }
@@ -88,17 +94,20 @@ fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -
             state.user != null -> {
                 UserDetailContent(
                     user = state.user!!,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(padding),
                 )
             }
 
             state.isError -> {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding), contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(text = stringResource(R.string.detail_error_fetching_user))
                 }
@@ -110,41 +119,47 @@ fun DetailScreen(modifier: Modifier = Modifier, userId: Int, onBackPressed: () -
 @Composable
 private fun UserDetailContent(
     user: UserUiModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+        modifier =
+            modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
     ) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .size(120.dp)
+                            .clip(CircleShape),
+                    contentAlignment = Alignment.Center,
                 ) {
                     AsyncImage(
                         model = user.avatar,
                         contentDescription = null,
-                        modifier = Modifier
-                            .size(120.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
+                        modifier =
+                            Modifier
+                                .size(120.dp)
+                                .clip(CircleShape),
+                        contentScale = ContentScale.Crop,
                     )
                 }
 
@@ -156,7 +171,7 @@ private fun UserDetailContent(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -164,7 +179,7 @@ private fun UserDetailContent(
                 Text(
                     text = "@${user.username}",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                 )
             }
         }
@@ -173,62 +188,63 @@ private fun UserDetailContent(
             text = stringResource(R.string.detail_contact_information),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
 
         ContactInfoCard(
             icon = Icons.Default.Email,
             title = "Email",
             content = user.email,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 12.dp),
         )
 
         ContactInfoCard(
             icon = Icons.Default.Phone,
             title = "Phone",
             content = user.phone,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 12.dp),
         )
 
         ContactInfoCard(
             icon = Icons.Default.Email,
             title = "Website",
             content = user.website,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 12.dp),
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
             ) {
                 Text(
                     text = stringResource(R.string.detail_user_details),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
                 )
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = stringResource(R.string.detail_user_id),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
                         text = "#${user.id}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
                     )
                 }
             }
@@ -241,35 +257,36 @@ private fun ContactInfoCard(
     icon: ImageVector,
     title: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -279,7 +296,7 @@ private fun ContactInfoCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }

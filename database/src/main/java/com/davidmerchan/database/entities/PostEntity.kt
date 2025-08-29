@@ -11,5 +11,5 @@ data class PostEntity(
     @ColumnInfo(name = "user_id")
     val userId: Int,
     val title: String,
-    val body: String
+    val body: String,
 )

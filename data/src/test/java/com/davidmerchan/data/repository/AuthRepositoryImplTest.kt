@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 
 class AuthRepositoryImplTest {
-
     private val authApi: AuthApi = mockk()
     private lateinit var authRepository: AuthRepository
 
@@ -29,80 +28,84 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `login success returns api key`() = runTest {
-        // Given
-        val username = "testuser"
-        val password = "testpass"
-        val expectedApiKey = "test-api-key-123"
-        val authDto = AuthDto(apiKey = expectedApiKey)
+    fun `login success returns api key`() =
+        runTest {
+            // Given
+            val username = "testuser"
+            val password = "testpass"
+            val expectedApiKey = "test-api-key-123"
+            val authDto = AuthDto(apiKey = expectedApiKey)
 
-        coEvery {
-            authApi.login(any())
-        } returns authDto
+            coEvery {
+                authApi.login(any())
+            } returns authDto
 
-        // When
-        val result = authRepository.login(username, password)
+            // When
+            val result = authRepository.login(username, password)
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedApiKey, result.getOrNull())
-    }
-
-    @Test
-    fun `login network error returns failure`() = runTest {
-        // Given
-        val username = "testuser"
-        val password = "testpass"
-        val exception = RuntimeException("Network error")
-
-        coEvery {
-            authApi.login(any())
-        } throws exception
-
-        // When
-        val result = authRepository.login(username, password)
-
-        // Then
-        assertTrue(result.isFailure)
-        assertEquals(exception, result.exceptionOrNull())
-    }
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedApiKey, result.getOrNull())
+        }
 
     @Test
-    fun `login with empty credentials handles correctly`() = runTest {
-        // Given
-        val username = ""
-        val password = ""
-        val expectedApiKey = "empty-creds-key"
-        val authDto = AuthDto(apiKey = expectedApiKey)
+    fun `login network error returns failure`() =
+        runTest {
+            // Given
+            val username = "testuser"
+            val password = "testpass"
+            val exception = RuntimeException("Network error")
 
-        coEvery {
-            authApi.login(any())
-        } returns authDto
+            coEvery {
+                authApi.login(any())
+            } throws exception
 
-        // When
-        val result = authRepository.login(username, password)
+            // When
+            val result = authRepository.login(username, password)
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedApiKey, result.getOrNull())
-    }
+            // Then
+            assertTrue(result.isFailure)
+            assertEquals(exception, result.exceptionOrNull())
+        }
 
     @Test
-    fun `login with null api key returns empty string`() = runTest {
-        // Given
-        val username = "testuser"
-        val password = "testpass"
-        val authDto = AuthDto(apiKey = "")
+    fun `login with empty credentials handles correctly`() =
+        runTest {
+            // Given
+            val username = ""
+            val password = ""
+            val expectedApiKey = "empty-creds-key"
+            val authDto = AuthDto(apiKey = expectedApiKey)
 
-        coEvery {
-            authApi.login(any())
-        } returns authDto
+            coEvery {
+                authApi.login(any())
+            } returns authDto
 
-        // When
-        val result = authRepository.login(username, password)
+            // When
+            val result = authRepository.login(username, password)
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals("", result.getOrNull())
-    }
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedApiKey, result.getOrNull())
+        }
+
+    @Test
+    fun `login with null api key returns empty string`() =
+        runTest {
+            // Given
+            val username = "testuser"
+            val password = "testpass"
+            val authDto = AuthDto(apiKey = "")
+
+            coEvery {
+                authApi.login(any())
+            } returns authDto
+
+            // When
+            val result = authRepository.login(username, password)
+
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals("", result.getOrNull())
+        }
 }

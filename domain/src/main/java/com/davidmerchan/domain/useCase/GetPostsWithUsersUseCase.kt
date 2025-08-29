@@ -8,7 +8,7 @@ fun interface GetPostsWithUsersUseCase : suspend () -> Result<List<PostWithUserM
 
 internal suspend fun getPostsWithUsers(
     postRepository: PostRepository,
-    userRepository: UserRepository
+    userRepository: UserRepository,
 ): Result<List<PostWithUserModel>> {
     val posts = postRepository.getPosts()
     val users = userRepository.getUsers()
@@ -24,10 +24,9 @@ internal suspend fun getPostsWithUsers(
                     title = post.title,
                     description = post.body,
                     avatar = user?.avatar.orEmpty(),
-                    userName = user?.name.orEmpty()
+                    userName = user?.name.orEmpty(),
                 )
             } ?: emptyList()
-
         } else if (posts.isSuccess) {
             posts.getOrNull()?.map {
                 PostWithUserModel(
@@ -36,7 +35,7 @@ internal suspend fun getPostsWithUsers(
                     title = it.title,
                     description = it.body,
                     avatar = "",
-                    userName = ""
+                    userName = "",
                 )
             } ?: emptyList()
         } else {

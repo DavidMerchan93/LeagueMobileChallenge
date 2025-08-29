@@ -6,6 +6,6 @@ internal sealed interface HomeContract {
     data class State(
         val isLoading: Boolean = false,
         val isError: Boolean = false,
-        val items: List<PostUiModel> = emptyList()
-    ): HomeContract
+        val items: List<PostUiModel> = emptyList(),
+    ) : HomeContract
 }

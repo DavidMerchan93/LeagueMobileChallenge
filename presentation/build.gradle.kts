@@ -25,7 +25,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -70,13 +70,13 @@ dependencies {
     // Image Loading
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
-    
+
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
-    
+
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

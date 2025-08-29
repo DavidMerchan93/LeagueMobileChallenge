@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
 abstract class BaseViewModel<State>(
-    initialState: State
+    initialState: State,
 ) : ViewModel() {
     protected val mutableState = MutableStateFlow(initialState)
-    val uiState: StateFlow<State> = mutableState
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = initialState,
-        )
-
+    val uiState: StateFlow<State> =
+        mutableState
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = initialState,
+            )
 }

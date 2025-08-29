@@ -6,6 +6,7 @@ import retrofit2.http.Header
 
 interface UserApi {
     @GET("users")
-    suspend fun getUsers(@Header("x-access-token") accessToken: String): List<UserDto>
-
+    suspend fun getUsers(
+        @Header("x-access-token") accessToken: String,
+    ): List<UserDto>
 }

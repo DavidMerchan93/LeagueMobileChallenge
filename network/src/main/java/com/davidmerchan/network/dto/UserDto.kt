@@ -12,7 +12,7 @@ data class UserDto(
     val email: String,
     val phone: String,
     val username: String,
-    val website: String
+    val website: String,
 )
 
 @Serializable
@@ -21,18 +21,18 @@ data class AddressDto(
     val geo: LocationDto,
     val street: String,
     val suite: String,
-    val zipcode: String
+    val zipcode: String,
 )
 
 @Serializable
 data class LocationDto(
     val lat: String,
-    val lng: String
+    val lng: String,
 )
 
 @Serializable
 data class CompanyDto(
     val bs: String,
     val catchPhrase: String,
-    val name: String
+    val name: String,
 )

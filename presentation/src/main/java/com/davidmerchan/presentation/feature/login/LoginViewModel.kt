@@ -9,24 +9,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class LoginViewModel @Inject constructor(
-    private val authUserCase: AuthUserCase
-) : BaseViewModel<LoginContract.State>(LoginContract.State()) {
-
-    fun handleEvent(event: LoginContract.Event) {
-        when (event) {
-            is LoginContract.Event.Login -> login(event.username, event.password)
+internal class LoginViewModel
+    @Inject
+    constructor(
+        private val authUserCase: AuthUserCase,
+    ) : BaseViewModel<LoginContract.State>(LoginContract.State()) {
+        fun handleEvent(event: LoginContract.Event) {
+            when (event) {
+                is LoginContract.Event.Login -> login(event.username, event.password)
+            }
         }
-    }
 
-    private fun login(username: String, password: String) {
-        mutableState.update { it.copy(isLoading = true, isError = false, isSuccessLogin = false) }
-        viewModelScope.launch {
-            authUserCase(username, password).onSuccess {
-                mutableState.update { it.copy(isSuccessLogin = true, isLoading = false, isError = false) }
-            }.onFailure {
-                mutableState.update { it.copy(isError = true, isLoading = false, isSuccessLogin = false) }
+        private fun login(
+            username: String,
+            password: String,
+        ) {
+            mutableState.update { it.copy(isLoading = true, isError = false, isSuccessLogin = false) }
+            viewModelScope.launch {
+                authUserCase(username, password)
+                    .onSuccess {
+                        mutableState.update { it.copy(isSuccessLogin = true, isLoading = false, isError = false) }
+                    }.onFailure {
+                        mutableState.update { it.copy(isError = true, isLoading = false, isSuccessLogin = false) }
+                    }
             }
         }
     }
-}

@@ -20,7 +20,6 @@ import org.junit.Before
 import org.junit.Test
 
 class PostRepositoryImplTest {
-
     private val postApi: PostApi = mockk()
     private val storage: Storage = mockk()
     private val postDao: PostDao = mockk()
@@ -38,156 +37,171 @@ class PostRepositoryImplTest {
     }
 
     @Test
-    fun `getPosts returns cached data when database has posts`() = runTest {
-        // Given
-        val cachedPosts = listOf(
-            PostEntity(id = 1, userId = 1, title = "Cached Post", body = "Cached content")
-        )
-        val expectedPosts = listOf(
-            PostModel(id = 1, userId = 1, title = "Cached Post", body = "Cached content")
-        )
+    fun `getPosts returns cached data when database has posts`() =
+        runTest {
+            // Given
+            val cachedPosts =
+                listOf(
+                    PostEntity(id = 1, userId = 1, title = "Cached Post", body = "Cached content"),
+                )
+            val expectedPosts =
+                listOf(
+                    PostModel(id = 1, userId = 1, title = "Cached Post", body = "Cached content"),
+                )
 
-        coEvery { postDao.getAllPosts() } returns cachedPosts
+            coEvery { postDao.getAllPosts() } returns cachedPosts
 
-        // When
-        val result = postRepository.getPosts()
+            // When
+            val result = postRepository.getPosts()
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedPosts, result.getOrNull())
-        coVerify(exactly = 0) {
-            postApi.getPosts(any())
-            storage.readSecureString(any())
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedPosts, result.getOrNull())
+            coVerify(exactly = 0) {
+                postApi.getPosts(any())
+                storage.readSecureString(any())
+            }
         }
-    }
 
     @Test
-    fun `getPosts fetches from API when database is empty and saves to cache`() = runTest {
-        // Given
-        val accessToken = "test-token-123"
-        val apiPosts = listOf(
-            PostDto(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-        val expectedPosts = listOf(
-            PostModel(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-        val expectedEntities = listOf(
-            PostEntity(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
+    fun `getPosts fetches from API when database is empty and saves to cache`() =
+        runTest {
+            // Given
+            val accessToken = "test-token-123"
+            val apiPosts =
+                listOf(
+                    PostDto(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
+            val expectedPosts =
+                listOf(
+                    PostModel(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
+            val expectedEntities =
+                listOf(
+                    PostEntity(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
 
-        coEvery { postDao.getAllPosts() } returns emptyList()
-        coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
-        coEvery { postApi.getPosts(accessToken) } returns apiPosts
-        coEvery { postDao.insertPosts(any()) } returns Unit
+            coEvery { postDao.getAllPosts() } returns emptyList()
+            coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
+            coEvery { postApi.getPosts(accessToken) } returns apiPosts
+            coEvery { postDao.insertPosts(any()) } returns Unit
 
-        // When
-        val result = postRepository.getPosts()
+            // When
+            val result = postRepository.getPosts()
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedPosts, result.getOrNull())
-        coVerify {
-            postDao.getAllPosts()
-            storage.readSecureString("league_API_KEY")
-            postApi.getPosts(accessToken)
-            postDao.insertPosts(expectedEntities)
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedPosts, result.getOrNull())
+            coVerify {
+                postDao.getAllPosts()
+                storage.readSecureString("league_API_KEY")
+                postApi.getPosts(accessToken)
+                postDao.insertPosts(expectedEntities)
+            }
         }
-    }
 
     @Test
-    fun `getPosts handles API error gracefully`() = runTest {
-        // Given
-        val accessToken = "test-token-123"
-        val exception = RuntimeException("API Error")
+    fun `getPosts handles API error gracefully`() =
+        runTest {
+            // Given
+            val accessToken = "test-token-123"
+            val exception = RuntimeException("API Error")
 
-        coEvery { postDao.getAllPosts() } returns emptyList()
-        coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
-        coEvery { postApi.getPosts(accessToken) } throws exception
+            coEvery { postDao.getAllPosts() } returns emptyList()
+            coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
+            coEvery { postApi.getPosts(accessToken) } throws exception
 
-        // When
-        val result = postRepository.getPosts()
+            // When
+            val result = postRepository.getPosts()
 
-        // Then
-        assertTrue(result.isFailure)
-        assertEquals(exception, result.exceptionOrNull())
+            // Then
+            assertTrue(result.isFailure)
+            assertEquals(exception, result.exceptionOrNull())
 
-        coVerify {
-            postDao.getAllPosts()
-            storage.readSecureString("league_API_KEY")
-            postApi.getPosts(accessToken)
+            coVerify {
+                postDao.getAllPosts()
+                storage.readSecureString("league_API_KEY")
+                postApi.getPosts(accessToken)
+            }
+            coVerify(exactly = 0) { postDao.insertPosts(any()) }
         }
-        coVerify(exactly = 0) { postDao.insertPosts(any()) }
-    }
 
     @Test
-    fun `getPosts handles empty token gracefully`() = runTest {
-        // Given
-        val emptyToken = ""
-        val apiPosts = listOf(
-            PostDto(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-        val expectedPosts = listOf(
-            PostModel(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
+    fun `getPosts handles empty token gracefully`() =
+        runTest {
+            // Given
+            val emptyToken = ""
+            val apiPosts =
+                listOf(
+                    PostDto(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
+            val expectedPosts =
+                listOf(
+                    PostModel(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
 
-        coEvery { postDao.getAllPosts() } returns emptyList()
-        coEvery { storage.readSecureString(any()) } returns flowOf(emptyToken)
-        coEvery { postApi.getPosts(emptyToken) } returns apiPosts
-        coEvery { postDao.insertPosts(any()) } returns Unit
+            coEvery { postDao.getAllPosts() } returns emptyList()
+            coEvery { storage.readSecureString(any()) } returns flowOf(emptyToken)
+            coEvery { postApi.getPosts(emptyToken) } returns apiPosts
+            coEvery { postDao.insertPosts(any()) } returns Unit
 
-        // When
-        val result = postRepository.getPosts()
+            // When
+            val result = postRepository.getPosts()
 
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedPosts, result.getOrNull())
-        coVerify { postApi.getPosts(emptyToken) }
-    }
-
-    @Test
-    fun `getPosts handles null token from storage`() = runTest {
-        // Given
-        val apiPosts = listOf(
-            PostDto(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-        val expectedPosts = listOf(
-            PostModel(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-
-        coEvery { postDao.getAllPosts() } returns emptyList()
-        coEvery { storage.readSecureString(any()) } returns flowOf(null)
-        coEvery { postApi.getPosts("") } returns apiPosts
-        coEvery { postDao.insertPosts(any()) } returns Unit
-
-        // When
-        val result = postRepository.getPosts()
-
-        // Then
-        assertTrue(result.isSuccess)
-        assertEquals(expectedPosts, result.getOrNull())
-        coVerify { postApi.getPosts("") }
-    }
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedPosts, result.getOrNull())
+            coVerify { postApi.getPosts(emptyToken) }
+        }
 
     @Test
-    fun `getPosts handles database error when saving API data`() = runTest {
-        // Given
-        val accessToken = "test-token-123"
-        val apiPosts = listOf(
-            PostDto(id = 1, userId = 1, title = "API Post", body = "API content")
-        )
-        val dbException = RuntimeException("Database save error")
+    fun `getPosts handles null token from storage`() =
+        runTest {
+            // Given
+            val apiPosts =
+                listOf(
+                    PostDto(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
+            val expectedPosts =
+                listOf(
+                    PostModel(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
 
-        coEvery { postDao.getAllPosts() } returns emptyList()
-        coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
-        coEvery { postApi.getPosts(accessToken) } returns apiPosts
-        coEvery { postDao.insertPosts(any()) } throws dbException
+            coEvery { postDao.getAllPosts() } returns emptyList()
+            coEvery { storage.readSecureString(any()) } returns flowOf(null)
+            coEvery { postApi.getPosts("") } returns apiPosts
+            coEvery { postDao.insertPosts(any()) } returns Unit
 
-        // When
-        val result = postRepository.getPosts()
+            // When
+            val result = postRepository.getPosts()
 
-        // Then
-        assertTrue(result.isFailure)
-        assertEquals(dbException, result.exceptionOrNull())
-    }
+            // Then
+            assertTrue(result.isSuccess)
+            assertEquals(expectedPosts, result.getOrNull())
+            coVerify { postApi.getPosts("") }
+        }
 
+    @Test
+    fun `getPosts handles database error when saving API data`() =
+        runTest {
+            // Given
+            val accessToken = "test-token-123"
+            val apiPosts =
+                listOf(
+                    PostDto(id = 1, userId = 1, title = "API Post", body = "API content"),
+                )
+            val dbException = RuntimeException("Database save error")
+
+            coEvery { postDao.getAllPosts() } returns emptyList()
+            coEvery { storage.readSecureString(any()) } returns flowOf(accessToken)
+            coEvery { postApi.getPosts(accessToken) } returns apiPosts
+            coEvery { postDao.insertPosts(any()) } throws dbException
+
+            // When
+            val result = postRepository.getPosts()
+
+            // Then
+            assertTrue(result.isFailure)
+            assertEquals(dbException, result.exceptionOrNull())
+        }
 }

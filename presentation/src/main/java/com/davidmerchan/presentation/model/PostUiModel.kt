@@ -6,5 +6,5 @@ data class PostUiModel(
     val avatar: String,
     val userId: Int,
     val userName: String,
-    val description: String
+    val description: String,
 )

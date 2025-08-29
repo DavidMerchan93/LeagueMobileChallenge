@@ -18,28 +18,26 @@ import androidx.compose.ui.unit.dp
 import com.davidmerchan.presentation.R
 
 @Composable
-fun SplashScreen(
-    modifier: Modifier = Modifier
-) {
+fun SplashScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(R.string.splash_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             CircularProgressIndicator(
                 modifier = Modifier.size(48.dp),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             Spacer(modifier = Modifier.height(16.dp))

@@ -19,29 +19,25 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideSecurity(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): Security = Security(context)
 
     @Provides
     @Singleton
     fun provideStorage(
         security: Security,
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): Storage = Storage(security = security, context = context)
 
     @Provides
     @Singleton
     fun provideLeagueDatabase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): LeagueDatabase = LeagueDatabase.create(context)
 
     @Provides
-    fun provideUserDao(database: LeagueDatabase): UserDao {
-        return database.userDao()
-    }
+    fun provideUserDao(database: LeagueDatabase): UserDao = database.userDao()
 
     @Provides
-    fun providePostDao(database: LeagueDatabase): PostDao {
-        return database.postDao()
-    }
+    fun providePostDao(database: LeagueDatabase): PostDao = database.postDao()
 }

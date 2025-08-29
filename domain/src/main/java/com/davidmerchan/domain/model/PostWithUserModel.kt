@@ -6,5 +6,5 @@ data class PostWithUserModel(
     val title: String,
     val description: String,
     val avatar: String,
-    val userName: String
+    val userName: String,
 )

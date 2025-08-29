@@ -9,7 +9,7 @@ data class UserModel(
     val email: String,
     val phone: String,
     val username: String,
-    val website: String
+    val website: String,
 )
 
 data class AddressModel(
@@ -17,16 +17,16 @@ data class AddressModel(
     val geo: LocationModel,
     val street: String,
     val suite: String,
-    val zipcode: String
+    val zipcode: String,
 )
 
 data class LocationModel(
     val lat: String,
-    val lng: String
+    val lng: String,
 )
 
 data class CompanyModel(
     val bs: String,
     val catchPhrase: String,
-    val name: String
+    val name: String,
 )

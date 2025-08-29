@@ -6,10 +6,12 @@ internal sealed interface DetailContract {
     data class State(
         val isLoading: Boolean = false,
         val isError: Boolean = false,
-        val user: UserUiModel? = null
+        val user: UserUiModel? = null,
     ) : DetailContract
 
     sealed interface Event : DetailContract {
-        data class GetUserById(val userId: Int) : Event
+        data class GetUserById(
+            val userId: Int,
+        ) : Event
     }
 }

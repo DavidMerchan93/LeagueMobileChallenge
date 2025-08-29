@@ -34,7 +34,7 @@ android {
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -64,10 +64,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(project(":di"))
     implementation(project(":presentation"))
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":network"))
 
     // Hilt
     implementation(libs.hilt.android)

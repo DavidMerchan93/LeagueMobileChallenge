@@ -8,7 +8,6 @@ import com.davidmerchan.database.entities.PostEntity
 
 @Dao
 interface PostDao {
-
     @Query("SELECT * FROM posts")
     suspend fun getAllPosts(): List<PostEntity>
 

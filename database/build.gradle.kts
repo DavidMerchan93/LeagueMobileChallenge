@@ -24,7 +24,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -48,14 +48,14 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
-    
+
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
-    
+
     // DataStore
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
-    
+
     // Tink Cryptography
     implementation(libs.tink.android)
 

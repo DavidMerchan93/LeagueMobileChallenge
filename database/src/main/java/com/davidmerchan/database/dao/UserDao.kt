@@ -9,7 +9,6 @@ import com.davidmerchan.database.entities.UserEntity
 
 @Dao
 interface UserDao {
-
     @Query("SELECT * FROM users")
     suspend fun getAllUsers(): List<UserEntity>
 

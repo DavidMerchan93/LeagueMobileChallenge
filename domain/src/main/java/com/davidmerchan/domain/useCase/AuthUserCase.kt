@@ -8,7 +8,7 @@ internal suspend fun authUser(
     username: String = "",
     password: String = "",
     authRepository: AuthRepository,
-    saveTokenUseCase: SaveTokenUseCase
+    saveTokenUseCase: SaveTokenUseCase,
 ): Result<Boolean> {
     val result = authRepository.login(username, password)
 

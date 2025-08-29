@@ -13,5 +13,5 @@ object HomeRoute
 
 @Serializable
 data class DetailRoute(
-    val userId: Int
+    val userId: Int,
 )

@@ -23,7 +23,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -47,14 +47,14 @@ kotlin {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    
+
     // Coroutines (for use cases)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-    
+
     testImplementation(libs.junit)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
     testImplementation(libs.mockk)

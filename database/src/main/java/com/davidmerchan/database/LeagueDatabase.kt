@@ -14,17 +14,16 @@ import com.davidmerchan.database.entities.UserEntity
     version = 1,
 )
 abstract class LeagueDatabase : RoomDatabase() {
-
     abstract fun userDao(): UserDao
+
     abstract fun postDao(): PostDao
 
     companion object {
         const val DATABASE_NAME = "league_database"
 
-        fun create(context: Context): LeagueDatabase {
-            return Room.databaseBuilder(context, LeagueDatabase::class.java, DATABASE_NAME)
+        fun create(context: Context): LeagueDatabase =
+            Room
+                .databaseBuilder(context, LeagueDatabase::class.java, DATABASE_NAME)
                 .build()
-        }
     }
-
 }

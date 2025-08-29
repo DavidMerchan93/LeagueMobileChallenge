@@ -19,9 +19,7 @@ import com.davidmerchan.presentation.feature.home.HomeScreen
 import com.davidmerchan.presentation.feature.login.LoginScreen
 
 @Composable
-fun AppNavigation(
-    navController: NavHostController = rememberNavController()
-) {
+fun AppNavigation(navController: NavHostController = rememberNavController()) {
     val authViewModel: AuthViewModel = hiltViewModel()
     val state by authViewModel.uiState.collectAsState()
 
@@ -45,7 +43,7 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = SplashRoute
+        startDestination = SplashRoute,
     ) {
         composable<SplashRoute> {
             SplashScreen()
@@ -56,7 +54,7 @@ fun AppNavigation(
                     navController.navigate(HomeRoute) {
                         popUpTo(LoginRoute) { inclusive = true }
                     }
-                }
+                },
             )
         }
 
@@ -67,7 +65,7 @@ fun AppNavigation(
                 },
                 onLogoutClick = {
                     authViewModel.handleEvent(AuthContract.Event.Logout)
-                }
+                },
             )
         }
 
@@ -75,7 +73,7 @@ fun AppNavigation(
             val detailRoute = backStackEntry.toRoute<DetailRoute>()
             DetailScreen(
                 userId = detailRoute.userId,
-                onBackPressed = { navController.popBackStack() }
+                onBackPressed = { navController.popBackStack() },
             )
         }
     }

@@ -24,7 +24,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    
+
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlinx.serialization)
