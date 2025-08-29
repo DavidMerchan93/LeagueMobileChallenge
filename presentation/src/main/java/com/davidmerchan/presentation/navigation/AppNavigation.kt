@@ -32,6 +32,11 @@ fun AppNavigation(
             HomeScreen(
                 onPostClick = { postId ->
                     navController.navigate(DetailRoute(postId))
+                },
+                onLogoutClick = {
+                    navController.navigate(LoginRoute) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }

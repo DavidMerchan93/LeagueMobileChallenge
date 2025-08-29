@@ -16,9 +16,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,7 +44,11 @@ import com.davidmerchan.presentation.model.PostUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, onPostClick: (Int) -> Unit) {
+fun HomeScreen(
+    modifier: Modifier = Modifier, 
+    onPostClick: (Int) -> Unit,
+    onLogoutClick: () -> Unit = {}
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -50,6 +58,17 @@ fun HomeScreen(modifier: Modifier = Modifier, onPostClick: (Int) -> Unit) {
             TopAppBar(
                 title = {
                     Text(text = "Home")
+                },
+                actions = {
+                    IconButton(
+                        onClick = onLogoutClick
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Logout",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             )
         }
