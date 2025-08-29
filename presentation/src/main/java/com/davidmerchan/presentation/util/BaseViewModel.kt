@@ -14,7 +14,7 @@ abstract class BaseViewModel<State>(
     @VisibleForTesting
     internal var stopTimeoutMillis: Long = 5_000
 
-    val mutableState = MutableStateFlow(initialState)
+    protected val mutableState = MutableStateFlow(initialState)
     val uiState: StateFlow<State> = mutableState
         .stateIn(
             scope = viewModelScope,
