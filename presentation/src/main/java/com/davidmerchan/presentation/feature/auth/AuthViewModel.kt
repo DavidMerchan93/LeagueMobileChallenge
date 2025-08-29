@@ -45,6 +45,8 @@ internal class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             saveAccessTokenUseCase("").onSuccess {
                 mutableState.update { it.copy(isLoading = false, authState = AuthState.UNAUTHENTICATED) }
+            }.onFailure {
+                mutableState.update { it.copy(isLoading = false, authState = AuthState.UNAUTHENTICATED) }
             }
         }
     }

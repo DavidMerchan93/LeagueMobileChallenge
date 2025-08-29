@@ -21,12 +21,12 @@ internal class DetailViewModel @Inject constructor(
     }
 
     private fun getUserById(userId: Int) {
-        mutableState.update { it.copy(isLoading = true) }
+        mutableState.update { it.copy(isLoading = true, isError = false) }
         viewModelScope.launch {
             getUserByIdUseCase(userId).onSuccess { user ->
-                mutableState.update { it.copy(isLoading = false, user = user?.toUi()) }
+                mutableState.update { it.copy(isLoading = false, user = user?.toUi(), isError = false) }
             }.onFailure {
-                mutableState.update { it.copy(isLoading = false, isError = true) }
+                mutableState.update { it.copy(isLoading = false, isError = true, user = null) }
             }
         }
     }
