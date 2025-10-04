@@ -1,5 +1,6 @@
 package com.davidmerchan.presentation.feature.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -140,11 +141,20 @@ fun LoginContent(
         ) {
             Text(stringResource(R.string.login_title_button))
         }
+        Button(
+            onClick = { Log.e("LoginScreen", "Forgot password") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = username.isNotBlank() && password.isNotBlank(),
+        ) {
+            Text(stringResource(R.string.forgot_password_title_button))
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    MaterialTheme {
+        LoginScreen()
+    }
 }

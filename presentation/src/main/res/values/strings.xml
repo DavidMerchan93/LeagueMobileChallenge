@@ -10,6 +10,7 @@
     <string name="login_username_label">Username</string>
     <string name="login_password_label">Password</string>
     <string name="login_title_button">Login</string>
+    <string name="forgot_password_title_button">Forgot Password</string>
 
     <!-- Home -->
     <string name="home_title">Home</string>
