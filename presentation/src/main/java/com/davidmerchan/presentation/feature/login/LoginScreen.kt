@@ -142,7 +142,8 @@ fun LoginContent(
             Text(stringResource(R.string.login_title_button))
         }
         Button(
-            onClick = { Log.e("LoginScreen", "Forgot password") },
+            onClick =
+                { Log.e("LoginScreen", "Forgot password") },
             modifier = Modifier.fillMaxWidth(),
             enabled = username.isNotBlank() && password.isNotBlank(),
         ) {
